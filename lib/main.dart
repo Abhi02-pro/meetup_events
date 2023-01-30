@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:meetup_events/screens/all_events_screen.dart';
 import 'package:meetup_events/screens/login_screen.dart';
 import 'package:meetup_events/screens/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,25 +37,43 @@ class MyHomePage extends StatefulWidget{
   const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
+
+  static const String KEYLOGIN = "login";
 
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3),
-        () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),))
+    whereToGo();
+  }
+
+  void whereToGo() async {
+
+     var sharedPref = await SharedPreferences.getInstance();
+     var isLoggedIn = sharedPref.getBool(KEYLOGIN);
+
+    Timer(Duration(seconds: 3),(){
+      if(isLoggedIn != Null){
+        if(isLoggedIn==true){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MeetupEvents(),));
+        }
+        else{
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+        }
+      }
+      else{
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+      }
+    }
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Meetup Events"),
-      // ),
       body: SplashScreen()
     );
   }

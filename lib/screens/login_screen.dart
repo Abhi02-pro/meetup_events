@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:meetup_events/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'all_events_screen.dart';
 
@@ -58,8 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: hidePassword ? true : false,
                 ),
                 SizedBox(height: 40,),
-                ElevatedButton(onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MeetupEvents(),));
+                ElevatedButton(onPressed: () async {
+
+                  var sharedPrefs = await SharedPreferences.getInstance();
+                  sharedPrefs.setBool(MyHomePageState.KEYLOGIN, true);
+
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MeetupEvents(),));
                 }, child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text("LOGIN"),
