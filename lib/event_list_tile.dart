@@ -38,17 +38,11 @@ class EventListTile extends StatelessWidget {
               ),
               SizedBox(height: 10,),
               Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8, top: 8),
                 child: Text(title, style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColorDark), textAlign: TextAlign.center,),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
-                child: EventDetailRowElement("Date", date),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
-                child: EventDetailRowElement("Location", location),
-              ),
+              EventDetailRowElement("Date", date),
+              EventDetailRowElement("Location", location),
               SizedBox(height: 5,)
             ],
           ),

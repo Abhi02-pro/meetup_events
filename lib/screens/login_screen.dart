@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'all_events_screen.dart';
 
 class LoginScreen extends StatefulWidget{
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }

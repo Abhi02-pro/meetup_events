@@ -6,6 +6,7 @@ import 'package:meetup_events/models/events.dart';
 import 'package:meetup_events/screens/user_profile_screen.dart';
 
 class MeetupEvents extends StatefulWidget {
+
   @override
   State<MeetupEvents> createState() => _MeetupEventsState();
 }

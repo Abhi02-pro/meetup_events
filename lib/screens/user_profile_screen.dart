@@ -8,6 +8,12 @@ class UserProfile extends StatefulWidget {
 class _UserProfileState extends State<UserProfile> {
   bool isObscurePassword = true;
   List<String> userInterest = [];
+  final usernameController = TextEditingController(text: "fake_user");
+  final passwordController = TextEditingController(text: "fake_password");
+  var addressController = TextEditingController();
+  var ageController = TextEditingController();
+  var dobController = TextEditingController();
+  var cardController = TextEditingController();
   var interestController = TextEditingController();
 
   @override
@@ -33,12 +39,12 @@ class _UserProfileState extends State<UserProfile> {
                 SizedBox(
                   height: 20,
                 ),
-                BuildTextField("Usrename", "fake_user", false),
-                BuildTextField("Password", "fake_password", true),
-                BuildTextField("Address", "", false),
-                BuildTextField("Age", "", false),
-                BuildTextField("Birthdate", "", false),
-                BuildTextField("Aadhaar/PAN No.", "", false),
+                BuildTextField("Usrename", usernameController, false, false),
+                BuildTextField("Password", passwordController, true, false),
+                BuildTextField("Address", addressController, false, true),
+                BuildTextField("Age", ageController, false, true),
+                BuildTextField("Birthdate", dobController, false, true),
+                BuildTextField("Aadhaar/PAN No.", cardController, false, true),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: TextField(
@@ -47,7 +53,7 @@ class _UserProfileState extends State<UserProfile> {
                       suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              userInterest.add(interestController.text);
+                              userInterest.add(interestController.text.trim());
                               interestController.clear();
                             });
                           },
@@ -64,7 +70,7 @@ class _UserProfileState extends State<UserProfile> {
                 //   ),
                 // )
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child: Container(
                     child: Wrap(
                         children: userInterest
@@ -76,6 +82,13 @@ class _UserProfileState extends State<UserProfile> {
                                         label: Text(interest.toString(), style: Theme.of(context).textTheme.bodySmall,),
                                       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                                       backgroundColor: Theme.of(context).primaryColorLight,
+                                      deleteIcon: Icon(Icons.cancel),
+                                      deleteIconColor: Colors.black45,
+                                      onDeleted: () {
+                                        setState(() {
+                                          userInterest.removeWhere((element) => element.toString() == interest.toString());
+                                        });
+                                      },
                                     ),
                                   ),
                             )
@@ -91,11 +104,14 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   Widget BuildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
+      String labelText, TextEditingController controller, bool isPasswordTextField, bool isEnabled) {
     return Padding(
       padding: EdgeInsets.all(20),
       child: TextField(
-        obscureText: isPasswordTextField ? isObscurePassword : false,
+        controller: controller,
+        enabled: isEnabled,
+        // obscureText: isPasswordTextField ? isObscurePassword : false,
+        obscureText: false,
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
                 ? IconButton(
@@ -111,7 +127,7 @@ class _UserProfileState extends State<UserProfile> {
             contentPadding: EdgeInsets.only(bottom: 5),
             labelText: labelText,
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
+            hintText: controller.text,
             hintStyle: TextStyle(
                 fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey)),
       ),
