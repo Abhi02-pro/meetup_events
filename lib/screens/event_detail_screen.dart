@@ -20,12 +20,12 @@ class EventDetails extends StatelessWidget {
               height: 200,
               color: Colors.black12,
               width: double.infinity,
-              child: Image.asset(event.poster, fit: BoxFit.cover),
+              child: Image.network(event.poster, fit: BoxFit.cover),
             ),
             Container(
               width: double.infinity,
               color: Colors.black12,
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(15.0),
               child: Text(event.title, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).primaryColorDark),softWrap: true,),
             ),
             Container(
